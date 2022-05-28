@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+        <input type="text" placeholder="add tour todo here" name="" id="inp">
+        <br>
+        <br>
+        <Button onclick="postData()">ADD</Button>
+        <div id="cont"></div>
+    </center>
+</body>
+<script>
+    async function fetchData(){
+        let res = await fetch("http://localhost:3000/todo");
+        let data = await res.json();
+        console.log(data);
+        displayData(data);
+    }
+    function postData(){
+        var inp = document.getElementById("inp");
+        inp = inp.value;
+        var body={
+            title:inp
+        }
+        body = JSON.stringify(body);
+        fetch('http://localhost:3000/todo',{method:'POST',body:JSON.stringify(body)})
+    }
+    fetchData();
+    function displayData(data1){
+        var div = document.getElementById("cont");
+        for(var i=0;i<data1.length;i++){
+            var t = document.createElement("h4");
+            t.textContent=data1[i].title;
+            div.append(t);
+        }
+    }
+</script>
+</html>
